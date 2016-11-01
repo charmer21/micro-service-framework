@@ -12,7 +12,10 @@ public class DemoService {
     @Autowired
     private DemoMapper mapper;
 
+    @Autowired
+    private DemoDao dao;
+
     public List<Demo> query(){
-        return mapper.findAll();
+        return dao.getMapper(DemoMapper.class).findAll();
     }
 }

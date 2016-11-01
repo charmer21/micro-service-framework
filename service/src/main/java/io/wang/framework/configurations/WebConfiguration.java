@@ -2,6 +2,7 @@ package io.wang.framework.configurations;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
+import io.wang.framework.mybatis.MapperLoader;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -74,4 +75,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         return dataSource;
     }
 
+//    @Bean
+//    public MapperLoader getMapperLoader() throws BeanInitializationException{
+//        return new MapperLoaderImpl();
+//    }
 }

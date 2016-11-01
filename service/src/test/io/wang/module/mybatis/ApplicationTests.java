@@ -28,16 +28,16 @@ public class ApplicationTests {
     @Test
     @Rollback
     public void findAll() throws Exception{
-        List<Demo> demos =  mapper.findAll();
-        Assert.assertEquals(2, demos.size());
-
-        Demo newDemo = new Demo();
-        newDemo.setId(UUID.randomUUID().toString().replace("-", ""));
-        newDemo.setName("李四");
-        newDemo.setMobile("13800138002");
-        mapper.save(newDemo);
-
-        demos = mapper.findAll();
+        List<Demo> demos = mapper.findAll();
         Assert.assertEquals(3, demos.size());
+
+//        Demo newDemo = new Demo();
+//        newDemo.setId(UUID.randomUUID().toString().replace("-", ""));
+//        newDemo.setName("李四");
+//        newDemo.setMobile("13800138002");
+//        mapper.save(newDemo);
+//
+//        demos = mapper.findAll();
+//        Assert.assertEquals(3, demos.size());
     }
 }
