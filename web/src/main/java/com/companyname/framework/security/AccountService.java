@@ -11,12 +11,12 @@ public class AccountService {
     @Autowired
     private AccountMapper mapper;
 
-    public Account findByLoginId(String loginId){
-        return mapper.findByLoginId(loginId);
+    public Account findByLoginId(String loginid){
+        return mapper.findByLoginId(loginid);
     }
 
-    public List<Role> getRoles(String loginId){
-        return mapper.getRoles(loginId);
+    public List<Role> getRoles(String loginid){
+        return mapper.getRoles(loginid);
     }
 
     public boolean authorized(String loginId, String target, String permission){
