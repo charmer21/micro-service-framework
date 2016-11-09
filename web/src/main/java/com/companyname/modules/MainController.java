@@ -1,15 +1,21 @@
 package com.companyname.modules;
 
 
+import com.companyname.framework.MicroController;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class MainController {
+public class MainController extends MicroController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(){
+    public String index(Model model){
+        model.addAttribute("userName",  getUser().getUserName());
         return "index";
     }
 }

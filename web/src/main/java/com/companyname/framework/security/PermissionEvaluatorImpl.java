@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.Serializable;
 
 @Component
-public class MicroPermissionEvaluator implements PermissionEvaluator {
+public class PermissionEvaluatorImpl implements PermissionEvaluator {
 
     @Autowired
     private AccountService accountService;

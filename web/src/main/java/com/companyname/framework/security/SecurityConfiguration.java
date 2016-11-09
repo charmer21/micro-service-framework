@@ -14,10 +14,13 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
+/**
+ * 权限配置
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService detailsService;
@@ -37,7 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/**/favicon.ico", "/druid/**");
+        // 需要排除权限控制的路径
+        // 主要包括静态资源和Druid监控页面（监控页面有独立的权限控制）
+        web.ignoring().antMatchers("/js/**", "/css/**", "/images/**", "/fonts/**", "/lib/**", "/**/favicon.ico", "/druid/**");
     }
 
     @Override

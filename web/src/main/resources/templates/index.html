@@ -6,7 +6,7 @@
 </head>
 <body>
 <div>
-    Hello World
+    Hello <span th:text="${userName}" />
     <br />
     <br />
     <div sec:authorize="hasPermission('', 'FUNC_1')">

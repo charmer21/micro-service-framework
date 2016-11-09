@@ -19,8 +19,6 @@ public class AccountController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginView(Model model){
-//        String password = BCrypt.hashpw("pass@word1", BCrypt.gensalt());
-//        model.addAttribute("password", password);
         return "login";
     }
 

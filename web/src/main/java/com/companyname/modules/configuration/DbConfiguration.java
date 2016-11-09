@@ -1,9 +1,12 @@
-package com.companyname.framework.db;
+package com.companyname.modules.configuration;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * 多数据库配置
+ */
 @Data
 @Configuration
 public class DbConfiguration {

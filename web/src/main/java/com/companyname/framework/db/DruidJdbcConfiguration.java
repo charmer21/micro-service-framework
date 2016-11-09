@@ -4,6 +4,10 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Druid连接池配置类
+ * 一般不需要修改
+ */
 @Data
 @Configuration
 public class DruidJdbcConfiguration extends JdbcConfiguration {

@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class MicroUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private AccountService accountService;
