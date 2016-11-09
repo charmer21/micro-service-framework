@@ -153,3 +153,26 @@ public class Demo {
 + @AllArgConstructor - 编译时生成所有字段的构造函数
 + @NoArgsConstructor - 编译时生成无参数的构造函数
 + 如果对Getter和Setter有特殊需求，直接编写对应的Getter/Setter函数即可
+
+
+
+#### 使用 jetty 替换内置的 tomcat
+
+```xml
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+  <exclusions>
+    <exclusion>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-tomcat</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+```
+
