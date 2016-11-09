@@ -5,8 +5,8 @@
 	<groupId>io.wang</groupId>
 	<artifactId>framework.webapp</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-    <packaging>war</packaging>
-	<description>microservice com.companyname.framework via webapp</description>
+	<packaging>war</packaging>
+	<description>microservice framework via webapp</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -112,6 +112,11 @@
             <artifactId>framework.core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+		<dependency>
+			<groupId>io.wang</groupId>
+			<artifactId>framework.service.def</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
