@@ -1,8 +1,8 @@
-package com.companyname;
+package com.companyname.framework;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
-import com.companyname.modules.configuration.DbConfiguration;
+import com.companyname.framework.db.DbConfiguration;
 import com.companyname.framework.db.DruidJdbcConfiguration;
 import com.companyname.framework.security.PermissionEvaluatorImpl;
 import org.springframework.beans.factory.BeanInitializationException;
