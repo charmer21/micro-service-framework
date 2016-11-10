@@ -176,3 +176,83 @@ public class Demo {
 </dependency>
 ```
 
+
+
+## 通讯方式
+
+| FROM  | TO      |              | 实现                                 |
+| ----- | ------- | ------------ | ---------------------------------- |
+| Web   | Service | HTTP Restful | RestTemplate or HttpClient         |
+| API网关 | API鉴权站点 | RPC（gRPC）    | proto + gRPC Service + gRPC Client |
+| API网关 | Service | HTTP Restful | RestTemplate or HttpClient         |
+| 第三方系统 | API网关   | HTTP Restful | RestTemplate or HttpClient         |
+
+
+
+#### gRPC
+
+###### maven配置
+
+```xml
+<dependencies>
+  <!-- gRPC -->
+  <dependency>
+    <groupId>io.grpc</groupId>
+    <artifactId>grpc-netty</artifactId>
+    <version>1.0.1</version>
+  </dependency>
+  <dependency>
+    <groupId>io.grpc</groupId>
+    <artifactId>grpc-protobuf</artifactId>
+    <version>1.0.1</version>
+  </dependency>
+  <dependency>
+    <groupId>io.grpc</groupId>
+    <artifactId>grpc-stub</artifactId>
+    <version>1.0.1</version>
+  </dependency>
+</dependencies>
+
+<build>
+  <extensions>
+    <extension>
+      <groupId>kr.motd.maven</groupId>
+      <artifactId>os-maven-plugin</artifactId>
+      <version>1.4.1.Final</version>
+    </extension>
+  </extensions>
+  <plugins>
+    <plugin>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-maven-plugin</artifactId>
+    </plugin>
+    <plugin>
+      <groupId>org.xolstice.maven.plugins</groupId>
+      <artifactId>protobuf-maven-plugin</artifactId>
+      <version>0.5.0</version>
+      <configuration>
+        <protocArtifact>com.google.protobuf:protoc:3.1.0:exe:${os.detected.classifier}</protocArtifact>
+        <pluginId>grpc-java</pluginId>
+        <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.0.1:exe:${os.detected.classifier}</pluginArtifact>
+      </configuration>
+      <executions>
+        <execution>
+          <goals>
+            <goal>compile</goal>
+            <goal>compile-custom</goal>
+          </goals>
+        </execution>
+      </executions>
+    </plugin>
+  </plugins>
+</build>
+```
+
+###### Example
+
+[helloworld.proto](https://github.com/grpc/grpc-java/blob/master/examples/src/main/proto/helloworld.proto)
+
+[HelloWorldClient.java](https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldClient.java)
+
+[HelloWorldServer.java](https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldServer.java)
+
