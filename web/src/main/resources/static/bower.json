@@ -1,0 +1,22 @@
+{
+  "name": "companyname.com",
+  "authors": [
+    "companyname"
+  ],
+  "description": "",
+  "main": "",
+  "keywords": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    ".",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}
