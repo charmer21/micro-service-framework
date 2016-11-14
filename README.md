@@ -84,7 +84,7 @@ jdbc.db2.url=jdbc:mysql://localhost:3306/dbname?characterEncoding=UTF-8&tinyInt1
 
 
 
-## Web站点
+## UI
 
 #### 渲染模板
 
@@ -120,8 +120,6 @@ spring.thymeleaf.cache=false					# 是否使用模板缓存
 ###### 基础配置路径
 
 `com.companyname.framework.security`
-
-
 
 
 
@@ -255,4 +253,126 @@ public class Demo {
 [HelloWorldClient.java](https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldClient.java)
 
 [HelloWorldServer.java](https://github.com/grpc/grpc-java/blob/master/examples/src/main/java/io/grpc/examples/helloworld/HelloWorldServer.java)
+
+
+
+## Web工程 Get Starter
+
+整合framework工程
+
+###### Step 1 新建工程
+
+> 继承 framework-webapp-starter 的 pom 文件
+
+```xml
+<parent>
+  <groupId>io.wang</groupId>
+  <artifactId>framework-webapp-starter</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+</parent>
+```
+
+###### Step 2 添加 main 函数
+
+> 将 Application.java 文件放在 com.companyname 包中，不要放在子包中
+>
+> 增加 @Import(value = com.companyname.framework.WebConfiguration.class) 注解
+
+```java
+@SpringBootApplication
+@Import(value = com.companyname.framework.WebConfiguration.class)
+public class Application {
+    public static void main(String[] args){
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
+###### Step 3 配置数据源
+
+> 增加 application-dev.properties 配置文件，增加各数据库的链接地址
+
+```properties
+# Common
+jdbc.username=root
+jdbc.password=pass@word1
+
+# db1
+jdbc.db1.url=jdbc:mysql://localhost:3306/microservice?characterEncoding=UTF-8&tinyInt1isBit=false
+
+# db2
+jdbc.db2.url=jdbc:mysql://localhost:3306/microservice?characterEncoding=UTF-8&tinyInt1isBit=false
+```
+
+> 添加 DbConfiguration 实体文件，配置各数据库链接地址，与配置文件对应
+
+```java
+@Data
+@Configuration
+public class DbConfiguration {
+
+    @Value(value = "${jdbc.db1.url}")
+    private String db1Url;
+
+    @Value(value = "${jdbc.db2.url}")
+    private String db2Url;
+}
+```
+
+> 添加 WebConfiguration 文件，并增加 DataSource 数据源配置
+
+```java
+@Configuration
+public class WebConfiguration extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private DbConfiguration dbConfiguration;
+
+    @Autowired
+    private DruidConfiguration druidConfiguration;
+
+    /**
+     * 针对不同数据库的数据源配置
+     * @return
+     * @throws BeanInitializationException
+     */
+    @Bean(destroyMethod = "close")
+    public DataSource getDb1DruidDataSource() throws BeanInitializationException{
+        DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
+        dataSource.setUrl(dbConfiguration.getDb1Url());
+        return dataSource;
+    }
+
+    /**
+     * 针对不同数据库的数据源配置
+     * @return
+     * @throws BeanInitializationException
+     */
+    @Bean(destroyMethod = "close")
+    @Primary
+    public DataSource getDb2DruidDataSource() throws BeanInitializationException{
+        DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
+        dataSource.setUrl(dbConfiguration.getDb2Url());
+        return dataSource;
+    }
+}
+```
+
+###### Step 4 将默认配置 copy 到项目对应的目录中
+
+> 静态资源
+>
+> src/main/resources/static/\*
+>
+> 页面模板
+>
+> src/main/resources/templates\*
+>
+> 程序配置文件
+>
+> src/main/resources/application.properties
+>
+> 日志配置文件
+>
+> src/main/resources/logback.xml
 
