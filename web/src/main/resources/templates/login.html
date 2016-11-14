@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>VankeService System</title>
+    <object th:include="head :: meta" th:remove="tag" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <br />
+            <br />
+            <div class="col-md-4 col-md-offset-4">
+                <form th:action="@{~/login}" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="inputUsername" class="col-md-4">账号</label>
+                        <div class="col-md-8">
+                            <input type="text" id="inputUsername" name="username" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-md-4">密码</label>
+                        <div class="col-md-8">
+                            <input type="password" id="inputPassword" name="password" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-8">
+                            <button type="submit" class="btn btn-primary">登录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
