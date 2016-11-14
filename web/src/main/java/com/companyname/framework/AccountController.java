@@ -1,4 +1,4 @@
-package com.companyname.modules.account;
+package com.companyname.framework;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.security.crypto.bcrypt.BCrypt;

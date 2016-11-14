@@ -1,4 +1,4 @@
-package com.companyname.modules.demo;
+package com.companyname.webapp.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
