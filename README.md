@@ -84,6 +84,27 @@ jdbc.db2.url=jdbc:mysql://localhost:3306/dbname?characterEncoding=UTF-8&tinyInt1
 
 
 
+##### 切换数据源
+
+> 按照 Get Starter 设置MultipleDataSource
+>
+> Service 层继承 MicroService，并 Override 属性 getDbKey() 
+
+```java
+@Service
+public class db2DemoService extends MicroService {
+
+    @Override
+    public String getDbKey() {
+        return "db2";
+    }
+}
+```
+
+
+
+
+
 ## UI
 
 #### 渲染模板
@@ -336,7 +357,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
      * @return
      * @throws BeanInitializationException
      */
-    @Bean(destroyMethod = "close")
     public DataSource getDb1DruidDataSource() throws BeanInitializationException{
         DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
         dataSource.setUrl(dbConfiguration.getDb1Url());
@@ -348,12 +368,26 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
      * @return
      * @throws BeanInitializationException
      */
-    @Bean(destroyMethod = "close")
-    @Primary
     public DataSource getDb2DruidDataSource() throws BeanInitializationException{
         DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
         dataSource.setUrl(dbConfiguration.getDb2Url());
         return dataSource;
+    }
+  
+  	/**
+     * 配置多数据源
+     * @return
+     */
+	@Bean
+    public MultipleDataSource getMultipleDataSource(){
+        MultipleDataSource multipleDataSource = new MultipleDataSource();
+        multipleDataSource.setDefaultTargetDataSource(getDb1DruidDataSource());
+        Map<Object, Object> targetDataSource = new ConcurrentHashMap<Object, Object>();
+        // 配置多数据源
+        targetDataSource.put("db1", getDb1DruidDataSource());
+        targetDataSource.put("db2", getDb2DruidDataSource());
+        multipleDataSource.setTargetDataSources(targetDataSource);
+        return multipleDataSource;
     }
 }
 ```
