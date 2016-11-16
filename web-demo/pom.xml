@@ -19,6 +19,11 @@
             <artifactId>framework-web</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>io.wang</groupId>
+            <artifactId>service-demo-def</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

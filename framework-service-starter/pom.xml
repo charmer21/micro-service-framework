@@ -81,6 +81,11 @@
             <artifactId>httpasyncclient</artifactId>
             <version>4.1.2</version>
         </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.0.1</version>
+        </dependency>
         <!-- framework -->
         <dependency>
             <groupId>io.wang</groupId>
