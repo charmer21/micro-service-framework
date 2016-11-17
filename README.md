@@ -12,11 +12,19 @@
 
 
 
+
+
 ## 快速开始
 
 [Web工程](web-get-starter.md)
 
 [Service工程](service-get-starter.md)
+
+
+
+### ChangeLog
+
+[Changelog](changelog.md)
 
 
 
@@ -131,6 +139,19 @@ spring.thymeleaf.cache=false					# 是否使用模板缓存
 
 
 
+## 通讯方式
+
+| FROM  | TO      |              | 实现                                 |
+| ----- | ------- | ------------ | ---------------------------------- |
+| Web   | Service | RPC（gRPC）    | proto + gRPC Service + gRPC Client |
+| API网关 | API鉴权站点 | RPC（gRPC）    | proto + gRPC Service + gRPC Client |
+| API网关 | Service | HTTP Restful | RestTemplate or HttpClient         |
+| 第三方系统 | API网关   | HTTP Restful | RestTemplate or HttpClient         |
+
+
+
+
+
 ## 其他组件
 
 #### lombok
@@ -182,17 +203,6 @@ public class Demo {
   <artifactId>spring-boot-starter-jetty</artifactId>
 </dependency>
 ```
-
-
-
-## 通讯方式
-
-| FROM  | TO      |              | 实现                                 |
-| ----- | ------- | ------------ | ---------------------------------- |
-| Web   | Service | HTTP Restful | RestTemplate or HttpClient         |
-| API网关 | API鉴权站点 | RPC（gRPC）    | proto + gRPC Service + gRPC Client |
-| API网关 | Service | HTTP Restful | RestTemplate or HttpClient         |
-| 第三方系统 | API网关   | HTTP Restful | RestTemplate or HttpClient         |
 
 
 
