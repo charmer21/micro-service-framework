@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Service
-public @interface GRpcService {
+public @interface GrpcService {
 
     Class<? extends ServerInterceptor>[] interceptors() default {};
     boolean applyGlobalInterceptors() default true;

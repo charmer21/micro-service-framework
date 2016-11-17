@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.companyname.projectname.web";
+option java_outer_classname = "DemoProto";
+option objc_class_prefix = "HLW";
+
+package demo;
+
+message QueryRequest {
+    int32 size = 1;
+}
+
+message QueryResponse {
+    repeated DemoEntity entities = 5;
+}
+
+message DemoEntity {
+    string id = 2;
+    string name = 3;
+    string mobile = 4;
+}
+
+service Demo {
+    rpc Query(QueryRequest) returns (QueryResponse) {}
+}

@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableConfigurationProperties(GRpcServerProperties.class)
-public class GRpcAutoConfiguration {
+@EnableConfigurationProperties(GrpcServerProperties.class)
+public class GrpcAutoConfiguration {
 
     @Bean
-    @ConditionalOnBean(annotation = GRpcService.class)
-    public GRpcServerRunner gRpcServerRunner(){
-        return new GRpcServerRunner();
+    @ConditionalOnBean(annotation = GrpcService.class)
+    public GrpcServerRunner gRpcServerRunner(){
+        return new GrpcServerRunner();
     }
 
 }

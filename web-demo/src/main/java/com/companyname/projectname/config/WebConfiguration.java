@@ -24,37 +24,28 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     /**
      * 针对不同数据库的数据源配置
+     *
      * @return
      * @throws BeanInitializationException
      */
-    public DataSource getDb1DruidDataSource() throws BeanInitializationException{
+    public DataSource getPrimaryDruidDataSource() throws BeanInitializationException {
         DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
-        dataSource.setUrl(dbConfiguration.getDb1Url());
-        return dataSource;
-    }
-
-    /**
-     * 针对不同数据库的数据源配置
-     * @return
-     * @throws BeanInitializationException
-     */
-    public DataSource getDb2DruidDataSource() throws BeanInitializationException{
-        DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
-        dataSource.setUrl(dbConfiguration.getDb2Url());
+        dataSource.setUrl(dbConfiguration.getPrimaryUrl());
         return dataSource;
     }
 
     /**
      * 配置多数据源
+     *
      * @return
      */
     @Bean
-    public MultipleDataSource getMultipleDataSource(){
+    public MultipleDataSource getMultipleDataSource() {
         MultipleDataSource multipleDataSource = new MultipleDataSource();
-        multipleDataSource.setDefaultTargetDataSource(getDb1DruidDataSource());
+        multipleDataSource.setDefaultTargetDataSource(getPrimaryDruidDataSource());
         Map<Object, Object> targetDataSource = new ConcurrentHashMap<Object, Object>();
-        targetDataSource.put("db1", getDb1DruidDataSource());
-        targetDataSource.put("db2", getDb2DruidDataSource());
+        // 配置多数据源
+        targetDataSource.put("primary", getPrimaryDruidDataSource());
         multipleDataSource.setTargetDataSources(targetDataSource);
         return multipleDataSource;
     }

@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Data
 @ConfigurationProperties("grpc")
-public class GRpcServerProperties {
+public class GrpcServerProperties {
 
     private int port = 6565;
 }

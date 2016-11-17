@@ -1,5 +1,6 @@
 package com.companyname.projectname.domain;
 
+import com.companyname.projectname.web.DemoEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;

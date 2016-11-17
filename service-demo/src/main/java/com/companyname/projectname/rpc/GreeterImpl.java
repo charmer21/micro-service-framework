@@ -1,14 +1,17 @@
-package com.companyname.projectname.web;
+package com.companyname.projectname.rpc;
 
-import com.companyname.framework.rpc.GRpcService;
+import com.companyname.framework.rpc.GrpcService;
 import com.companyname.projectname.domain.Demo;
 import com.companyname.projectname.service.Demo2Service;
+import com.companyname.projectname.web.GreeterGrpc;
+import com.companyname.projectname.web.HelloReply;
+import com.companyname.projectname.web.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-@GRpcService
+@GrpcService
 public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
 
     @Autowired
