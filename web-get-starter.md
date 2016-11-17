@@ -37,32 +37,26 @@ public class Application {
 
 ###### Step 3 配置数据源
 
-> 增加 application-dev.properties 配置文件，增加各数据库的链接地址
+> 增加 application-dev.properties 配置文件，增加数据库的链接地址（用于账号及角色、权限数据）
 
 ```properties
 # Common
 jdbc.username=root
 jdbc.password=pass@word1
 
-# db1
-jdbc.db1.url=jdbc:mysql://localhost:3306/microservice?characterEncoding=UTF-8&tinyInt1isBit=false
-
-# db2
-jdbc.db2.url=jdbc:mysql://localhost:3306/microservice?characterEncoding=UTF-8&tinyInt1isBit=false
+# primary
+jdbc.primary.url=jdbc:mysql://localhost:3306/microservice?characterEncoding=UTF-8&tinyInt1isBit=false
 ```
 
-> 添加 DbConfiguration 实体文件，配置各数据库链接地址，与配置文件对应
+> 添加 DbConfiguration 实体文件，配置数据库链接地址，与配置文件对应
 
 ```java
 @Data
 @Configuration
 public class DbConfiguration {
 
-    @Value(value = "${jdbc.db1.url}")
-    private String db1Url;
-
-    @Value(value = "${jdbc.db2.url}")
-    private String db2Url;
+    @Value(value = "${jdbc.primary.url}")
+    private String primaryUrl;
 }
 ```
 
@@ -83,20 +77,9 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
      * @return
      * @throws BeanInitializationException
      */
-    public DataSource getDb1DruidDataSource() throws BeanInitializationException{
+    public DataSource getPrimaryDruidDataSource() throws BeanInitializationException{
         DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
-        dataSource.setUrl(dbConfiguration.getDb1Url());
-        return dataSource;
-    }
-
-    /**
-     * 针对不同数据库的数据源配置
-     * @return
-     * @throws BeanInitializationException
-     */
-    public DataSource getDb2DruidDataSource() throws BeanInitializationException{
-        DruidDataSource dataSource = druidConfiguration.getDruidDataSource();
-        dataSource.setUrl(dbConfiguration.getDb2Url());
+        dataSource.setUrl(dbConfiguration.getPrimaryUrl());
         return dataSource;
     }
   
@@ -107,11 +90,10 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 	@Bean
     public MultipleDataSource getMultipleDataSource(){
         MultipleDataSource multipleDataSource = new MultipleDataSource();
-        multipleDataSource.setDefaultTargetDataSource(getDb1DruidDataSource());
+        multipleDataSource.setDefaultTargetDataSource(getPrimaryDruidDataSource());
         Map<Object, Object> targetDataSource = new ConcurrentHashMap<Object, Object>();
         // 配置多数据源
-        targetDataSource.put("db1", getDb1DruidDataSource());
-        targetDataSource.put("db2", getDb2DruidDataSource());
+        targetDataSource.put("primary", getPrimaryDruidDataSource());
         multipleDataSource.setTargetDataSources(targetDataSource);
         return multipleDataSource;
     }
@@ -138,20 +120,40 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
 
 
-###### 数据源切换
+#### 使用RPC服务
 
-> 配置好 MultipleDataSource
->
-> Service 层继承 MicroService，并 Override 属性 getDbKey() 
+1. 引用接口定义文件，参考 [Service Get Starter的使用RPC服务章节](service-get-starter.md)
+2. 增加RPC客户端类
 
 ```java
-@Service
-public class db2DemoService extends MicroService {
+public class DemoClient extends AbstractGrpcClient<DemoGrpc.DemoBlockingStub> {
+
+    public DemoClient(String host, int port) {
+        super(host, port);
+    }
 
     @Override
-    public String getDbKey() {
-        return "db2";
+    protected DemoGrpc.DemoBlockingStub getBlockingStub() {
+        return DemoGrpc.newBlockingStub(channel);
+    }
+
+    public List<DemoEntity> query(int size) {
+        QueryRequest request = QueryRequest.newBuilder().setSize(size).build();
+        QueryResponse response;
+        try {
+            response = blockingStub.query(request);
+        } catch (StatusRuntimeException e) {
+            logger.warn("RPC failed: {0}", e.getStatus());
+            return null;
+        }
+        return response.getEntitiesList();
     }
 }
 ```
 
+**需要注意的地方**
+
++ 客户端必须继承 AbstractGrpcClient<T> 
++ 类型 T 为对应 RPC 服务的 BlockingStub 类
++ 构造函数必须调用父类的构造函数 `super(host, port)`
++ 必须重写 getBlockingStub 方法，获取当前服务对应的 BlockingStub
