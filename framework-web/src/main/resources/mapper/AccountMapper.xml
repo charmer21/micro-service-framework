@@ -5,26 +5,45 @@
 <mapper namespace="com.companyname.framework.security.AccountMapper">
 
     <resultMap id="account" type="com.companyname.framework.security.Account">
+        <result property="id" column="id"/>
         <result property="loginId" column="login_id"/>
-        <result property="userName" column="user_name"/>
+        <result property="password" column="password"/>
+        <result property="type" column="type"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="mobilePhone" column="mobile_phone"/>
+        <result property="im" column="im"/>
+        <result property="telephone" column="telephone"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="status" column="status"/>
+        <result property="orgId" column="org_id"/>
+    </resultMap>
+
+    <resultMap id="role" type="com.companyname.framework.security.Role">
+        <result property="id" column="id" />
+        <result property="code" column="code" />
+        <result property="name" column="name" />
+        <result property="description" column="description" />
     </resultMap>
     
     <select id="findByLoginId" resultMap="account">
-        select u.* from users u where u.login_id = #{loginid};
+        select u.* from sec_user u where u.LOGIN_ID = #{loginid};
     </select>
 
-    <select id="getRoles" resultType="com.companyname.framework.security.Role">
-        select r.* from users u
-        inner join user_roles ur on u.login_id = ur.login_id
-        inner join roles r on ur.role_id = r.id
-        where u.login_id = #{loginid};
+    <select id="getRoles" resultMap="role">
+        select r.* from sec_user u
+        inner join sec_user_role ur on u.ID = ur.USER_ID
+        inner join sec_role r on ur.ROLE_ID = r.ID
+        where u.LOGIN_ID = #{loginid};
     </select>
 
     <select id="hasPermission" resultType="Boolean" useCache="true">
-        select count(1) from permissions p
-        inner join role_permissions rp on p.id = rp.permission_id
-        inner join user_roles ur on rp.role_id = ur.role_id
-        where ur.login_id = #{0} and p.code = #{1};
+        select count(1) from sec_permissions p
+        inner join sec_role_permissions rp on p.ID = rp.OPERATION_ID
+        inner join sec_user_role ur on rp.ROLE_ID = ur.ROLE_ID
+        inner join sec_user u on ur.USER_ID = u.ID
+        where u.LOGIN_ID = #{0} and p.CODE = #{1};
     </select>
 
 </mapper>

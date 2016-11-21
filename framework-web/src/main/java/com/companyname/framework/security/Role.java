@@ -20,4 +20,8 @@ public class Role {
      * 角色编码
      */
     private String code;
+    /**
+     * 角色描述
+     */
+    private String description;
 }

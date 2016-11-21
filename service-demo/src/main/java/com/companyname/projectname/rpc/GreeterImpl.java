@@ -25,6 +25,8 @@ public class GreeterImpl extends GreeterGrpc.GreeterImplBase {
             message = demos.get(0).getName();
         }
 
+        
+
         HelloReply reply = HelloReply.newBuilder().setMessage(request.getName() + " " + message).build();
         responseObserver.onNext(reply);
         responseObserver.onCompleted();

@@ -12,7 +12,7 @@ public class MainController extends MicroController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model){
         logger.debug("debug");
-        model.addAttribute("userName",  getUser().getUserName());
+        model.addAttribute("userName",  getUser().getName());
         return "index";
     }
 }
